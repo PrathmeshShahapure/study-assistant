@@ -81,7 +81,7 @@ const Home = () => {
              </p>
              <button
                onClick={() => handleInput("/flashcards")}
-               className="relative  w-full py-3 px-6 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
+               className="relative  w-full py-3 px-6 bg-indigo-600 hover:cursor-pointer hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
              >
                Start Learning
              </button>
@@ -105,7 +105,7 @@ const Home = () => {
              </p>
              <button
                onClick={() => handleInput("/quiz")}
-               className="relative  w-full py-3 px-6 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
+               className="relative  w-full py-3 px-6 bg-emerald-800 hover:cursor-pointer hover:bg-emerald-900 text-white font-semibold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
              >
                Take a Test
              </button>
