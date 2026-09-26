@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import groq from "./groq.js";
 
 const app = express();
 
@@ -104,7 +105,33 @@ app.post("/api/generate", (req, res) => {
     } catch (error) {
 
     console.error("Generate error:", error);
-    return req.status(500).json("Something went wrong");
+     return res.status(500).json({
+  message: "Something went wrong",
+});
+  }
+});
+
+app.get("/api/test-groq", async (req, res) => {
+  try {
+    const response = await groq.chat.completions.create({
+      model: "openai/gpt-oss-20b",
+      messages: [
+        {
+          role: "user",
+          content: "Say hello in one sentence.",
+        },
+      ],
+    });
+
+    res.json({
+      message: response.choices[0].message.content,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Groq request failed",
+    });
   }
 });
 
