@@ -12,7 +12,7 @@ const Home = () => {
 
  
   const genrateStudyMaterail = async (type) => { 
-    return api.post("api/generate", { title_or_content: topicContent ,type});
+    return api.post("/api/generate", { title_or_content: topicContent ,type});
   }
   const handleInput = async(str) => { 
       try {
