@@ -9,3 +9,14 @@ export const flashcardsSchema = z.object({
     }),
   ),
 });
+
+export const quizSchema = z.object({
+  quiz: z.array(
+    z.object({
+      id: z.number(),
+      question: z.string(),
+        options: z.array(z.string()),
+      correctAnswer: z.string(),
+    }),
+  ),
+});
