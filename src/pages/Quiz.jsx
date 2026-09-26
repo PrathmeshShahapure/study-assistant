@@ -1,30 +1,72 @@
+import { useState } from "react";
+import { useLocation, Link } from "react-router-dom";
 import {
   ArrowLeft,
   ArrowRight,
   CircleDashedCheck,
   CircleDotDashed,
+  RotateCw,
+  X,
+  House,
 } from "lucide-react";
-import { useState} from 'react'
-import { useLocation } from 'react-router-dom'
+
+const mockQuiz = [
+  {
+    id: 1,
+    question: "What is the main purpose of mitosis?",
+    options: [
+      "Produce identical daughter cells",
+      "Produce sperm cells",
+      "Create genetic variation",
+      "Reduce chromosome number",
+    ],
+    correctAnswer: "Produce identical daughter cells",
+  },
+  {
+    id: 2,
+    question: "How many daughter cells are produced after mitosis?",
+    options: ["1", "2", "3", "4"],
+    correctAnswer: "2",
+  },
+  {
+    id: 3,
+    question: "During which phase do chromosomes align at the cell's equator?",
+    options: ["Prophase", "Metaphase", "Anaphase", "Telophase"],
+    correctAnswer: "Metaphase",
+  },
+  {
+    id: 4,
+    question: "How many daughter cells are produced after mitosissss?",
+    options: ["1", "2", "3", "4"],
+    correctAnswer: "2",
+  },
+  {
+    id: 5,
+    question: "How many daughter cells are produced aàter mitosisaaaa?",
+    options: ["1", "2", "3", "4"],
+    correctAnswer: "3",
+  },
+];
 const Quiz = () => {
   const location = useLocation();
   const [currentQ, setCurrentQ] = useState(0);
- 
+  const [quizData, setQuizData] = useState(mockQuiz)
   const [answers, setAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
+  const [score, setScore] = useState(null);
+  const [wrongAnswers, setWrongAnswers] = useState([]);
   const topicContent = location.state?.topicContent;
-  
+
   const handleQuestion = (opre) => {
     switch (opre) {
       case "-":
         if (currentQ > 0) {
           setCurrentQ((prev) => prev - 1);
-          
         }
         break;
       case "+":
-        if (currentQ < mockQuiz.length - 1) {
+        if (currentQ < quizData.length - 1) {
           setCurrentQ((prev) => prev + 1);
-         
         }
         break;
 
@@ -32,66 +74,45 @@ const Quiz = () => {
         break;
     }
   };
-  
-  const mockQuiz = [
-    {
-      id: 1,
-      question: "What is the main purpose of mitosis?",
-      options: [
-        "Produce identical daughter cells",
-        "Produce sperm cells",
-        "Create genetic variation",
-        "Reduce chromosome number",
-      ],
-      correctAnswer: "Produce identical daughter cells",
-    },
-    {
-      id: 2,
-      question: "How many daughter cells are produced after mitosis?",
-      options: ["1", "2", "3", "4"],
-      correctAnswer: "2",
-    },
-    {
-      id: 3,
-      question:
-        "During which phase do chromosomes align at the cell's equator?",
-      options: ["Prophase", "Metaphase", "Anaphase", "Telophase"],
-      correctAnswer: "Metaphase",
-    },
-    {
-      id: 4,
-      question: "How many daughter cells are produced after mitosissss?",
-      options: ["1", "2", "3", "4"],
-      correctAnswer: "2",
-    },
-    {
-      id: 5,
-      question: "How many daughter cells are produced aàter mitosisaaaa?",
-      options: ["1", "2", "3", "4"],
-      correctAnswer: "2",
-    },
-  ];
 
   const handleSelectedAns = (e) => {
-    const id = currentQ + 1;
-    setAnswers((prev) => ({ ...prev,  [id] : e.target.value}) )
-  }
+    const id = quizData[currentQ].id;
+    setAnswers((prev) => ({ ...prev, [id]: e.target.value }));
+  };
 
+  const handleTestChecking = () => {
+    let wrongOnes = quizData.filter((item) => {
+      return item.correctAnswer != answers[item.id];
+    });
+
+    setWrongAnswers(wrongOnes);
+    setScore(quizData.length - wrongOnes.length);
+    setShowResults(true);
+    
+   
+  }
+  const handleReTest = () => { 
+    setQuizData(wrongAnswers);
+    setCurrentQ(0);
+    setAnswers({});
+    setScore(null)
+    setShowResults(false);
+  }
+ console.log(quizData)
+  
   return (
-    <div className="mx-auto max-w-7xl w-full mt-3">
-      <div>
-        {" "}
-        <h2 className="text-3xl text-center"> Mitosis</h2>
-      </div>
+    <div className=" relative mx-auto max-w-7xl w-full mt-3">
+      <h2 className="text-3xl text-center"> Mitosis</h2>
+
       <div className="flex mt-4 gap-6">
         <div className="w-[25%] self-start p-3 border border-gray-200 bg-amber-50  shadow-lg rounded-2xl">
           <p className="p-2 font-normal">Question Matrix</p>
           <div className="grid grid-cols-3 gap-2">
-            {mockQuiz?.map((q) => (
+            {quizData?.map((q) => (
               <button
                 key={q.id}
-                onClick={()=>setCurrentQ(q.id-1)}
-                className=" hover:cursor-pointer px-2 py-1 shadow rounded bg-purple-100 "
+                onClick={() => { let index = quizData.findIndex((item) => item.id == q.id); setCurrentQ(index) }}
+                className={` ${answers[q.id] ? "bg-green-300" : "bg-purple-100 "}  hover:cursor-pointer px-2 py-1 shadow rounded `}
               >
                 {q.id}
               </button>
@@ -109,18 +130,18 @@ const Quiz = () => {
         <div className="w-[60%] shadow-lg p-4  bg-white rounded-4xl border border-gray-50 ">
           <div className=" w-full font-normal">
             <p className="flex justify-end ml-auto text-indigo-700 ">
-              Question #{mockQuiz[currentQ].id}
+              Question #{quizData[currentQ].id}
             </p>
-            <h4 className="text-2xl">{mockQuiz[currentQ].question}</h4>
+            <h4 className="text-2xl">{quizData[currentQ].question}</h4>
             <div className="flex flex-col gap-2 text-left my-3">
-              {mockQuiz[currentQ]?.options?.map((ops) => (
+              {quizData[currentQ]?.options?.map((ops) => (
                 <button
                   key={ops}
                   value={ops}
                   onClick={handleSelectedAns}
                   className="px-2 py-1 flex gap-2  rounded border border-gray-200 hover:cursor-pointer shadow-2xl text-left "
                 >
-                  {answers[currentQ+1] === ops ? (
+                  {answers[quizData[currentQ].id] === ops ? (
                     <CircleDashedCheck className="font-normal text-green-700" />
                   ) : (
                     <CircleDotDashed className="font-normal text-purple-600" />
@@ -136,12 +157,11 @@ const Quiz = () => {
               className=" disabled:cursor-not-allowed flex gap-1 hover:font-comic hover:cursor-pointer"
               onClick={() => handleQuestion("-")}
             >
-             
               <ArrowLeft /> Prev
             </button>
 
             <button
-              disabled={currentQ == mockQuiz.length - 1}
+              disabled={currentQ == quizData.length - 1}
               className=" disabled:cursor-not-allowed flex gap-1 hover:font-comic hover:cursor-pointer"
               onClick={() => handleQuestion("+")}
             >
@@ -150,10 +170,53 @@ const Quiz = () => {
             </button>
           </div>
           <p>{topicContent}</p>
+
+          <button
+            onClick={handleTestChecking}
+            disabled={Object.keys(answers).length < quizData.length}
+            className=" hover:cursor-pointer disabled:cursor-not-allowed text-xl mx-auto block font-normal p-1 px-2 bg-green-400 rounded"
+          >
+            Submit
+          </button>
         </div>
       </div>
+
+      {/* show result */}
+      {showResults && (
+        <div className="  mx-auto absolute  top-12  w-fit left-1/2 -translate-x-1/2">
+          <div className=" bg-cyan-50 rounded-2xl p-4 flex flex-col space-y-4 border border-gray-200 shadow-2xl">
+            <h2 className="text-center text-3xl">Quiz Complete! </h2>
+            <p className="text-center text-xl font-normal">
+              Here's How you performed.
+            </p>
+            <p className="text-center text-3xl">
+              {score} / {quizData.length}
+            </p>
+            <div className="flex justify-center gap-2">
+              <button
+                onClick={handleReTest}
+                disabled={score ===quizData.length}
+                className=" disabled:cursor-not-allowed bg-[#5b4dff] px-2 p-1 flex text-white gap-2 rounded shadow cursor-pointer">
+                <RotateCw /> ReTest Wrong Answers
+              </button>
+              <Link
+                to="/"
+                className=" px-2 p-1 flex bg-white gap-2 rounded shadow cursor-pointer"
+              >
+                <House /> Back to Home
+              </Link>
+            </div>
+            <button
+              onClick={() => setShowResults(false)}
+              className=" hover:cursor-pointer absolute right-0 top-0 px-5"
+            >
+              <X />
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default Quiz
+export default Quiz;
