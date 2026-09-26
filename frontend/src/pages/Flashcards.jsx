@@ -1,61 +1,31 @@
-import { useState} from 'react'
-import { useLocation } from 'react-router-dom'
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ArrowLeft, ArrowRight, DotIcon, WalletCardsIcon } from "lucide-react";
 const Flashcards = () => {
-    const location = useLocation();
-    const [currentQ, setCurrentQ] = useState(0);
-    const [showAns, setShowAns] = useState(false);
-    const topicContent = location.state?.topicContent;
+  const location = useLocation();
+  const [currentQ, setCurrentQ] = useState(0);
+  const [showAns, setShowAns] = useState(false);
 
-    const mockFlashcards = [
-      {
-        id: 1,
-        question: "What is a closure?",
-        answer:
-          "A function that remembers its lexical environment.",
-      },
-      {
-        id: 2,
-        question: "What is a p?",
-        answer: "A function that remembers its lexical environment.",
-      },
-      {
-        id: 3,
-        question: "What is aa?",
-        answer: "A function that remembers its lexical environment.",
-      },
-      {
-        id: 4,
-        question: "What is a b?",
-        answer: "A function that remembers its lexical environment.",
-      },
-      {
-        id: 5,
-        question: "What is ac?",
-        answer: "A function that remembers its lexical environment.",
-      },
-    ];
+  const flashData = location.state?.data?.flashcards;
+  const title = location.state?.data.title;
 
-  
-    const handleQuestion = (opre) => { 
-        switch (opre) {
-          case "-":
-            if (currentQ > 0) {
-              setCurrentQ((prev) => prev - 1);
-            }
-            break;
-          case "+":
-            if (currentQ <mockFlashcards.length-1 ) {
-              setCurrentQ((prev) => prev + 1);
-            }
-            break;
-
-          default:
-            break;
+  const handleQuestion = (opre) => {
+    switch (opre) {
+      case "-":
+        if (currentQ > 0) {
+          setCurrentQ((prev) => prev - 1);
         }
+        break;
+      case "+":
+        if (currentQ < flashData.length - 1) {
+          setCurrentQ((prev) => prev + 1);
+        }
+        break;
 
+      default:
+        break;
     }
-  
+  };
 
   return (
     <div className="max-w-6xl mx-auto w-full flex flex-col items-center mt-4">
@@ -71,32 +41,35 @@ const Flashcards = () => {
         <>
           <p className="flex gap-2 text-indigo-500 ">
             <WalletCardsIcon />
-            {mockFlashcards.length} Cards
+            {flashData.length} Cards
           </p>
         </>
       </div>
 
       <div className="flex justify-between w-full mt-6 mb-4">
-        <h2 className="text-3xl">Cell Biology:Mitosis </h2>
+        <h2 className="text-3xl">{title} </h2>
         <p>
-          {mockFlashcards[currentQ].id} of {mockFlashcards.length}
+          {flashData[currentQ].id} of {flashData.length}
         </p>
       </div>
-          <div className="bg-purple-100 rounded-full w-full h-2 ">
-              <div style={{width:`${((currentQ + 1) / mockFlashcards.length) * 100}%`}} className={`bg-purple-800 h-2 rounded transition-colors `}/> 
+      <div className="bg-purple-100 rounded-full w-full h-2 ">
+        <div
+          style={{ width: `${((currentQ + 1) / flashData.length) * 100}%` }}
+          className={`bg-purple-800 h-2 rounded transition-colors `}
+        />
       </div>
 
       <div className="my-4 p-6 w-full bg-white rounded-4xl border border-gray-50 shadow-2xl font-normal">
         <p className="flex justify-end ml-auto text-indigo-700 ">
-          Question #{mockFlashcards[currentQ].id}
+          Question #{flashData[currentQ].id}
         </p>
-        <h4 className="text-2xl">{mockFlashcards[currentQ].question}</h4>
+        <h4 className="text-2xl">{flashData[currentQ].question}</h4>
         {showAns ? (
           <p
             onClick={() => setShowAns((prev) => !prev)}
             className=" hover:cursor-pointer  bg-purple-100 min-h-30 my-4 rounded-2xl p-3"
           >
-            {mockFlashcards[currentQ].answer}
+            {flashData[currentQ].answer}
           </p>
         ) : (
           <p
@@ -109,7 +82,7 @@ const Flashcards = () => {
       </div>
       <div className="flex justify-between font-normal w-full">
         <button
-          disabled={currentQ == 0}
+          disabled={currentQ === 0}
           className=" disabled:cursor-not-allowed flex gap-1 hover:font-comic hover:cursor-pointer"
           onClick={() => handleQuestion("-")}
         >
@@ -118,17 +91,16 @@ const Flashcards = () => {
         </button>
 
         <button
-          disabled={currentQ == mockFlashcards.length-1}
+          disabled={currentQ === flashData.length - 1}
           className=" disabled:cursor-not-allowed flex gap-1 hover:font-comic hover:cursor-pointer"
           onClick={() => handleQuestion("+")}
         >
-    
-                  Next
-                  <ArrowRight />
+          Next
+          <ArrowRight />
         </button>
       </div>
     </div>
   );
-}
+};
 
-export default Flashcards
+export default Flashcards;

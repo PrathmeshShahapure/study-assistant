@@ -1,19 +1,34 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../axios.js";
 import { BookText, BookOpenText, FileQuestionMark } from "lucide-react";
 
 const Home = () => {
-    const [topicContent, setTopicContent] = useState("");
+  const [topicContent, setTopicContent] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const handleInput = (str) => { 
-        if (!topicContent.trim()) { 
-            setError("Please enter a topic or study material.");
-            return
-        }
-        navigate(str, { state: { topicContent } })
+ 
+  const genrateStudyMaterail = async (type) => { 
+    return api.post("api/generate", { title_or_content: topicContent ,type});
+  }
+  const handleInput = async(str) => { 
+      try {
+         if (!topicContent.trim()) {
+           setError("Please enter a topic or study material.");
+           return;
+         }
+        const type = str.slice(1);
+        console.log(type)
+        let result = await genrateStudyMaterail(type);
+        const data = result?.data;
+         navigate(str, { state: { data } });
+      } catch (error) {
+        console.log(error)
+        setError(error.message)
+      }
+       
     }
   
    return (
