@@ -23,9 +23,9 @@ const mockQuiz = [
   },
   {
     id: 2,
-    question: "How many daughter cells are produced after mitosis?",
-    options: ["1", "2", "3", "4"],
-    correctAnswer: "2",
+    question: "What is your name?",
+    options: ["pratik", "shouraya", "Prathmesh", "deeplip"],
+    correctAnswer: "Prathmesh",
   },
   {
     id: 3,

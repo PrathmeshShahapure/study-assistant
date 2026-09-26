@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation ,Link} from "react-router-dom";
 import { ArrowLeft, ArrowRight, DotIcon, WalletCardsIcon } from "lucide-react";
 const Flashcards = () => {
   const location = useLocation();
@@ -31,9 +31,9 @@ const Flashcards = () => {
     <div className="max-w-6xl mx-auto w-full flex flex-col items-center mt-4">
       <div className="flex  w-full justify-between">
         <div className="flex gap-2 items-center">
-          <button className="hover:bg-purple-100 hover:text-purple-700 hover:cursor-pointer p-1 px-2 flex gap-1  rounded">
+          <Link to="/" className="hover:bg-purple-100 hover:text-purple-700 hover:cursor-pointer p-1 px-2 flex gap-1  rounded">
             <ArrowLeft /> Exit
-          </button>
+          </Link>
           <p className=" inline  rounded-full text-xs  text-purple-700 bg-purple-300/50 p-2  font-semibold">
             | AI-Powered Learning
           </p>

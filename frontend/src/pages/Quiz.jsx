@@ -10,53 +10,17 @@ import {
   House,
 } from "lucide-react";
 
-const mockQuiz = [
-  {
-    id: 1,
-    question: "What is the main purpose of mitosis?",
-    options: [
-      "Produce identical daughter cells",
-      "Produce sperm cells",
-      "Create genetic variation",
-      "Reduce chromosome number",
-    ],
-    correctAnswer: "Produce identical daughter cells",
-  },
-  {
-    id: 2,
-    question: "How many daughter cells are produced after mitosis?",
-    options: ["1", "2", "3", "4"],
-    correctAnswer: "2",
-  },
-  {
-    id: 3,
-    question: "During which phase do chromosomes align at the cell's equator?",
-    options: ["Prophase", "Metaphase", "Anaphase", "Telophase"],
-    correctAnswer: "Metaphase",
-  },
-  {
-    id: 4,
-    question: "How many daughter cells are produced after mitosissss?",
-    options: ["1", "2", "3", "4"],
-    correctAnswer: "2",
-  },
-  {
-    id: 5,
-    question: "How many daughter cells are produced aàter mitosisaaaa?",
-    options: ["1", "2", "3", "4"],
-    correctAnswer: "3",
-  },
-];
+
 const Quiz = () => {
   const location = useLocation();
   const [currentQ, setCurrentQ] = useState(0);
-  const [quizData, setQuizData] = useState(mockQuiz)
+  const [quizData, setQuizData] = useState(location.state?.data?.quiz)
   const [answers, setAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
   const [score, setScore] = useState(null);
   const [wrongAnswers, setWrongAnswers] = useState([]);
-  const topicContent = location.state?.topicContent;
 
+  const title = location.state?.data.title;
   const handleQuestion = (opre) => {
     switch (opre) {
       case "-":
@@ -98,11 +62,10 @@ const Quiz = () => {
     setScore(null)
     setShowResults(false);
   }
- console.log(quizData)
   
   return (
     <div className=" relative mx-auto max-w-7xl w-full mt-3">
-      <h2 className="text-3xl text-center"> Mitosis</h2>
+      <h2 className="text-3xl text-center"> { title}</h2>
 
       <div className="flex mt-4 gap-6">
         <div className="w-[25%] self-start p-3 border border-gray-200 bg-amber-50  shadow-lg rounded-2xl">
@@ -169,7 +132,7 @@ const Quiz = () => {
               <ArrowRight />
             </button>
           </div>
-          <p>{topicContent}</p>
+        
 
           <button
             onClick={handleTestChecking}
