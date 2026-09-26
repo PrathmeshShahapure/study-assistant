@@ -10,44 +10,6 @@ app.use(cors());
 app.get("/health", (req, res) => {
   res.send({ message: "hi i am alive" });
 });
-const mockQuiz = [
-  {
-    id: 1,
-    question: "What is the main purpose of mitosis?",
-    options: [
-      "Produce identical daughter cells",
-      "Produce sperm cells",
-      "Create genetic variation",
-      "Reduce chromosome number",
-    ],
-    correctAnswer: "Produce identical daughter cells",
-  },
-  {
-    id: 2,
-    question: "What is your name?",
-    options: ["pratik", "shouraya", "Prathmesh", "deeplip"],
-    correctAnswer: "Prathmesh",
-  },
-  {
-    id: 3,
-    question: "During which phase do chromosomes align at the cell's equator?",
-    options: ["Prophase", "Metaphase", "Anaphase", "Telophase"],
-    correctAnswer: "Metaphase",
-  },
-  {
-    id: 4,
-    question: "How many daughter cells are produced after mitosissss?",
-    options: ["1", "2", "3", "4"],
-    correctAnswer: "2",
-  },
-  {
-    id: 5,
-    question: "How many daughter cells are produced aàter mitosisaaaa?",
-    options: ["1", "2", "3", "4"],
-    correctAnswer: "3",
-  },
-];
-
 
 app.post("/api/generate", async (req, res) => {
   const { title_or_content, type } = req.body;
