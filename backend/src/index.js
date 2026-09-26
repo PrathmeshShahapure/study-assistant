@@ -52,8 +52,6 @@ const mockQuiz = [
 app.post("/api/generate", async (req, res) => {
   const { title_or_content, type } = req.body;
   try {
-    console.log("Received topic:", title_or_content);
-    console.log(type);
 
     if (type === "flashcards") {
       const response = await groq.chat.completions.create({
@@ -149,33 +147,10 @@ Rules:
   } catch (error) {
     console.error("Generate error:", error);
     return res.status(500).json({
-      message: "Something went wrong",
+      message: "Failed to generate study material. Please try again.",
     });
   }
 });
 
-app.get("/api/test-groq", async (req, res) => {
-  try {
-    const response = await groq.chat.completions.create({
-      model: "openai/gpt-oss-20b",
-      messages: [
-        {
-          role: "user",
-          content: "Say hello in one sentence.",
-        },
-      ],
-    });
-
-    res.json({
-      message: response.choices[0].message.content,
-    });
-  } catch (error) {
-    console.error(error);
-
-    res.status(500).json({
-      message: "Groq request failed",
-    });
-  }
-});
 
 export default app;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation ,Link} from "react-router-dom";
-import { ArrowLeft, ArrowRight, DotIcon, WalletCardsIcon } from "lucide-react";
+import { ArrowLeft, ArrowRight, WalletCardsIcon } from "lucide-react";
 const Flashcards = () => {
   const location = useLocation();
   const [currentQ, setCurrentQ] = useState(0);
@@ -26,6 +26,27 @@ const Flashcards = () => {
         break;
     }
   };
+   
+  if (!flashData || flashData.length === 0) {
+    return (
+      <div className="min-h-screen  flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">No flashcards found</h2>
+
+          <p className="text-gray-500 mt-2">
+            Please generate flashcards from the home page.
+          </p>
+
+          <Link to="/"
+           
+            className=" block mx-auto mt-2 px-4 py-2 rounded bg-purple-600 text-white"
+          >
+            Go Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto w-full flex flex-col items-center mt-4">

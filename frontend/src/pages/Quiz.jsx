@@ -62,7 +62,26 @@ const Quiz = () => {
     setScore(null)
     setShowResults(false);
   }
-  
+  if (!quizData || quizData.length === 0) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-semibold">No quiz found</h2>
+
+          <p className="text-gray-500 mt-2">
+            Please generate a quiz from the home page.
+          </p>
+
+          <Link
+            to="/"
+            className="block mx-auto   mt-4 px-4 py-2 rounded bg-purple-600 text-white"
+          >
+            Go Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className=" relative mx-auto max-w-7xl w-full mt-3">
       <h2 className="text-3xl text-center"> { title}</h2>

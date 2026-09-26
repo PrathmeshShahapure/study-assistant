@@ -6,8 +6,9 @@ import { BookText, BookOpenText, FileQuestionMark } from "lucide-react";
 
 const Home = () => {
   const [topicContent, setTopicContent] = useState("");
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
  
   const genrateStudyMaterail = async (type) => { 
@@ -19,14 +20,17 @@ const Home = () => {
            setError("Please enter a topic or study material.");
            return;
          }
+        setError("");
+        setLoading(true);
         const type = str.slice(1);
-        console.log(type)
+       
         let result = await genrateStudyMaterail(type);
         const data = result?.data;
          navigate(str, { state: { data } });
       } catch (error) {
         console.log(error)
-        setError(error.message)
+       setError(error.response?.data?.message ||
+         "Something went wrong. Please try again.");
       }
        
     }
@@ -98,7 +102,7 @@ const Home = () => {
                onClick={() => handleInput("/flashcards")}
                className="relative  w-full py-3 px-6 bg-indigo-600 hover:cursor-pointer hover:bg-indigo-700 text-white font-semibold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
              >
-               Start Learning
+               {loading ? "Generating..." : "Start Learning"}
              </button>
            </div>
            <div className="p-8 relative bg-white rounded-3xl border border-gray-100 shadow-sm">
@@ -122,7 +126,7 @@ const Home = () => {
                onClick={() => handleInput("/quiz")}
                className="relative  w-full py-3 px-6 bg-emerald-800 hover:cursor-pointer hover:bg-emerald-900 text-white font-semibold rounded-2xl shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
              >
-               Take a Test
+               {loading ? "Generating..." : "Take a Test"}
              </button>
            </div>
          </div>
