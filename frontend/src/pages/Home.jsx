@@ -37,13 +37,13 @@ const Home = () => {
   
    return (
      <div className=" mx-auto max-w-7xl  ">
-       <div className="flex flex-col items-center">
+       <div className="flex flex-col items-center px-2">
          <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-semibold my-4">
            <span className="w-2 h-2 rounded-full bg-purple-600"></span>
            AI-Powered Learning Workspace
          </span>
 
-         <h1 className="text-4xl mb-3">
+         <h1 className=" text-2xl sm:text-4xl text-center mb-3">
            Learn Anything.
            <span className="text-[#8B5CF6]">Test Yourself.</span>
          </h1>
@@ -74,8 +74,8 @@ const Home = () => {
          </section>
        </div>
 
-       <section className="mt-20 font-normal">
-         <h2 className="text-4xl mb-1">What would you like to do?</h2>
+       <section className="mt-20 font-normal px-2">
+         <h2 className="text-2xl sm:text-4xl mb-1">What would you like to do?</h2>
          <p className="pl-2">
            Choose your mode to begin generating your custom session.
          </p>
